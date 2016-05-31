@@ -13,7 +13,7 @@ print("******************************************************")
 # Configurations
 ping_server = 30
 jenkins_jobs = ["samsung-retail", "samsung-evollis-sdk-test"]
-# ser = serial.Serial('COM6', 9600)
+# ser = serial.Serial('COM4', 9600)
 
 # Arduino Configuration
 SUCCESS = b'b'
@@ -28,21 +28,15 @@ def get_status(jobName):
     global buildStatusJson
     jenkinsUrl = "http://jenkins-server-1.preprod:8080/job/"
     jenkinsStream = urllib.request.Request(jenkinsUrl + jobName + "/lastBuild/api/json")
+    response = None
     try:
-        urllib.request.urlopen(jenkinsStream)
+        response = urllib.request.urlopen(jenkinsStream)
     except urllib.error.URLError as e:
         print("URL Error: " + str(e.reason))
         print("      (job name [" + jobName + "] probably wrong)")
         # sys.exit(2)
 
-    buildStatusJson = None
-    reader = codecs.getreader("utf-8")
-    try:
-        buildStatusJson = json.load(reader(jenkinsStream))
-        # buildStatusJson = json.load(jenkinsStream)
-    except:
-        print("Failed to parse json")
-        #sys.exit(3)
+    buildStatusJson = json.loads(response.read().decode('utf8'))
 
     if buildStatusJson is not None:
         return jobName, buildStatusJson["timestamp"], buildStatusJson["result"],

@@ -5,6 +5,7 @@ import sys
 import time
 import urllib
 import urllib.request
+import serial
 
 print("******************************************************")
 print("* Script for Arduino should work                     *")
@@ -13,7 +14,7 @@ print("******************************************************")
 # Configurations
 ping_server = 30
 jenkins_jobs = ["samsung-retail", "samsung-evollis-sdk-test"]
-# ser = serial.Serial('COM4', 9600)
+ser = serial.Serial('COM4', 9600)
 
 # Arduino Configuration
 SUCCESS = b'b'

@@ -48,6 +48,7 @@ while 1:
         if status is not None:
             print(status[0], status[2])
             if status[2] == "UNSTABLE":
+                ser.write(UNSTABLE)
                 time.sleep(ping_server)
         else:
             print('NO JOB')
